@@ -10,7 +10,6 @@ import CoreLocation
 
 final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
-    private var authorizationStatus: CLAuthorizationStatus { locationManager.authorizationStatus }
     
     @Published var location: CLLocationCoordinate2D?
     @Published var isLoading = false
@@ -23,10 +22,6 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     func requestLocation() {
         isLoading = true
         locationManager.requestLocation()
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

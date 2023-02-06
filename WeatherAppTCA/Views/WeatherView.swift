@@ -14,7 +14,6 @@ struct WeatherView: View {
     
     var body: some View {
         VStack {
-        
             if let location = locationManager.location {
                 if let weather = weather {
                     WeatherContentView(weather: weather)
