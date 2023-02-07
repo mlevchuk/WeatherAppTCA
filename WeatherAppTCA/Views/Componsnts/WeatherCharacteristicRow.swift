@@ -1,5 +1,5 @@
 //
-//  WeatherRow.swift
+//  WeatherCharacteristicRow.swift
 //  WeatherAppTCA
 //
 //  Created by Mykhaylo Levchuk on 06/02/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WeatherRow: View {
+struct WeatherCharacteristicRow: View {
     var logo: String
     var name: String
     var value: String
@@ -31,8 +31,8 @@ struct WeatherRow: View {
     }
 }
 
-struct WeatherRow_Previews: PreviewProvider {
+struct WeatherCharacteristicRow_Previews: PreviewProvider {
     static var previews: some View {
-        WeatherRow(logo: "thermometer", name: "Feels like", value: "8°")
+        WeatherCharacteristicRow(logo: "thermometer", name: "Feels like", value: "8°")
     }
 }
