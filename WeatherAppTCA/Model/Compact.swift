@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CityRowData: Identifiable {
+struct Compact: Identifiable, Equatable {
     let id = UUID()
     let name: String
     let time: String

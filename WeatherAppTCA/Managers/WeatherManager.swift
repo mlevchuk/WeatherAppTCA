@@ -37,7 +37,7 @@ final class WeatherManager {
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error fetching weather data")
+            throw NSError(domain: "Not valid status code", code: 1)
         }
         
         let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
