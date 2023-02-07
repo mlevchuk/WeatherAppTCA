@@ -6,41 +6,33 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct CitiesView: View {
-    @State var cities: [CityRowData] = []
-    @State private var searchText = ""
-    var weatherManager = WeatherManager()
+    let store: StoreOf<CitiesViewReducer>
     
     var body: some View {
         NavigationView {
-            CitiesList(cities: $cities)
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .onSubmit(of: .search) {
-                    Task {
-                        do {
-                            try await fetchCity()
-                        } catch {
-                            print(error)
-                        }
+            WithViewStore(store, observe: { $0 }) { viewStore in
+                CitiesList(cities: viewStore.cities.map { $0.citiRowData })
+                    .searchable(
+                        text: viewStore.binding(get: { $0.query }, send: CitiesViewReducer.Action.textChanged),
+                        placement: .navigationBarDrawer(displayMode: .always)
+                    )
+                    .onSubmit(of: .search) {
+                        viewStore.send(.textSubmitted)
                     }
-                }
-                .foregroundColor(.white)
-                .navigationBarTitleDisplayMode(.inline)
-                .background(Constants.Colors.primary)
-                .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
-            
+                    .foregroundColor(.white)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .background(Constants.Colors.primary)
+                    .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
+            }
         }.accentColor(.white)
-    }
-    
-    private func fetchCity() async throws {
-        let responseBody = try await weatherManager.getCurrentWeather(searchText)
-        cities.append(responseBody.citiRowData)
     }
 }
 
 struct CitiesList: View {
-    @Binding var cities: [CityRowData]
+    var cities: [CityRowData]
     var body: some View {
         if cities.isEmpty {
             Constants.Colors.primary
@@ -54,7 +46,6 @@ struct CitiesList: View {
                             }, label: {
                                 CityRow(data: cityData)
                             })
-                        
                     }
                     .padding([.leading, .trailing, .top], 8)
                 }
@@ -65,6 +56,6 @@ struct CitiesList: View {
 
 struct CitiesView_Previews: PreviewProvider {
     static var previews: some View {
-        CitiesView(cities: previewCities)
+        CitiesView(store: .init(initialState: CitiesViewReducer.State(), reducer: CitiesViewReducer()))
     }
 }

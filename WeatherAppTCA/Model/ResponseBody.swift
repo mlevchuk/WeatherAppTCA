@@ -41,13 +41,29 @@ struct Coord: Codable, Equatable {
 struct Main: Codable, Equatable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity: Int
-
+    
+    
     enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
         case tempMin = "temp_min"
         case tempMax = "temp_max"
         case pressure, humidity
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let tempKelvin = try container.decode(Double.self, forKey: .temp)
+        let feelsLikeKelvin = try container.decode(Double.self, forKey: .feelsLike)
+        let tempMinKelvin = try container.decode(Double.self, forKey: .tempMin)
+        let tempMaxKelvin = try container.decode(Double.self, forKey: .tempMax)
+        
+        temp = tempKelvin - 273.15
+        feelsLike = feelsLikeKelvin - 273.15
+        tempMin = tempMinKelvin - 273.15
+        tempMax = tempMaxKelvin - 273.15
+        pressure = try container.decode(Int.self, forKey: .pressure)
+        humidity = try container.decode(Int.self, forKey: .humidity)
     }
 }
 
