@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 struct CitiesViewReducer: ReducerProtocol {
-    var manager: WeatherManager = .init()
+    private let manager: WeatherManager = .init()
     
     struct State: Equatable {
         var query: String = ""
