@@ -12,7 +12,6 @@ struct WeatherAppTCAApp: App {
     var body: some Scene {
         WindowGroup {
             CitiesView()
-            //WeatherView()
         }
     }
 }

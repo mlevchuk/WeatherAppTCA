@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ResponseBody: Codable {
+struct ResponseBody: Codable, Equatable {
     let coord: Coord
     let weather: [Weather]
     let base: String
@@ -28,17 +28,17 @@ struct ResponseBody: Codable {
 }
 
 // MARK: - Clouds
-struct Clouds: Codable {
+struct Clouds: Codable, Equatable {
     let all: Int
 }
 
 // MARK: - Coord
-struct Coord: Codable {
+struct Coord: Codable, Equatable {
     let lon, lat: Double
 }
 
 // MARK: - Main
-struct Main: Codable {
+struct Main: Codable, Equatable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity: Int
 
@@ -52,20 +52,20 @@ struct Main: Codable {
 }
 
 // MARK: - Sys
-struct Sys: Codable {
+struct Sys: Codable, Equatable {
     let type, id: Int
     let country: String
     let sunrise, sunset: Int
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct Weather: Codable, Equatable {
     let id: Int
     let main, description, icon: String
 }
 
 // MARK: - Wind
-struct Wind: Codable {
+struct Wind: Codable, Equatable {
     let speed: Double
     let deg: Int
 }
