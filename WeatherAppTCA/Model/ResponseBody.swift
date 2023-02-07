@@ -21,7 +21,7 @@ struct ResponseBody: Codable, Equatable {
     let name: String
     let cod: Int
     
-    var citiRowData: CityRowData {
+    var compact: Compact {
         let time = "\(Date(timeIntervalSince1970: Double(dt)).formatted(.dateTime.hour().minute()))"
         return .init(name: name, time: time, description: weather[0].main, temp: Int(main.temp))
     }
@@ -41,7 +41,6 @@ struct Coord: Codable, Equatable {
 struct Main: Codable, Equatable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity: Int
-    
     
     enum CodingKeys: String, CodingKey {
         case temp

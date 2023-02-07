@@ -14,7 +14,7 @@ struct CitiesView: View {
     var body: some View {
         NavigationView {
             WithViewStore(store, observe: { $0 }) { viewStore in
-                CitiesList(cities: viewStore.cities.map { $0.citiRowData })
+                CitiesList(cities: viewStore.cities.map { $0.compact })
                     .searchable(
                         text: viewStore.binding(get: { $0.query }, send: CitiesViewReducer.Action.textChanged),
                         placement: .navigationBarDrawer(displayMode: .always)
@@ -33,7 +33,7 @@ struct CitiesView: View {
 }
 
 struct CitiesList: View {
-    var cities: [CityRowData]
+    var cities: [Compact]
     var body: some View {
         if cities.isEmpty {
             Constants.Colors.primary

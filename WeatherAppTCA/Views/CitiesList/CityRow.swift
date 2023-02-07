@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CityRow: View {
-    var data: CityRowData
+    var data: Compact
     
     var body: some View {
         HStack {
