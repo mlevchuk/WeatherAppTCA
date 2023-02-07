@@ -20,6 +20,11 @@ struct ResponseBody: Codable {
     let timezone, id: Int
     let name: String
     let cod: Int
+    
+    var citiRowData: CityRowData {
+        let time = "\(Date(timeIntervalSince1970: Double(dt)).formatted(.dateTime.hour().minute()))"
+        return .init(name: name, time: time, description: weather.description, temp: Int(main.temp))
+    }
 }
 
 // MARK: - Clouds
