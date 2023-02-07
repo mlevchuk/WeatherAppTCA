@@ -112,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				96AE3AE029922858009AB59D /* WeatherView */,
-				96AE3ABF29915123009AB59D /* Componsnts */,
+				96AE3ABF29915123009AB59D /* Components */,
 				96AE3A22298D13BC009AB59D /* WelcomeView.swift */,
 			);
 			path = Views;
@@ -134,14 +134,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		96AE3ABF29915123009AB59D /* Componsnts */ = {
+		96AE3ABF29915123009AB59D /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				96AE3AAC2990FD94009AB59D /* LoadingView.swift */,
 				96AE3AC029915130009AB59D /* WeatherCharacteristicRow.swift */,
 				96AE3AE129922892009AB59D /* ErrorView.swift */,
 			);
-			path = Componsnts;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		96AE3AE029922858009AB59D /* WeatherView */ = {
