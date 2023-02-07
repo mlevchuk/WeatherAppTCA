@@ -61,14 +61,14 @@ struct WeatherContentView: View {
                         .bold()
                         .padding(.bottom)
                     HStack {
-                        WeatherRow(logo: "thermometer", name: "Min temp", value: weather.main.tempMin.roundDouble() + "°")
+                        WeatherCharacteristicRow(logo: "thermometer", name: "Min temp", value: weather.main.tempMin.roundDouble() + "°")
                         Spacer()
-                        WeatherRow(logo: "thermometer", name: "Max temp", value: weather.main.tempMax.roundDouble() + "°")
+                        WeatherCharacteristicRow(logo: "thermometer", name: "Max temp", value: weather.main.tempMax.roundDouble() + "°")
                     }
                     HStack {
-                        WeatherRow(logo: "wind", name: "Wind speed", value: weather.wind.speed.roundDouble() + "m/s")
+                        WeatherCharacteristicRow(logo: "wind", name: "Wind speed", value: weather.wind.speed.roundDouble() + "m/s")
                         Spacer()
-                        WeatherRow(logo: "humidity", name: "Humidity", value: String(weather.main.humidity) + "%")
+                        WeatherCharacteristicRow(logo: "humidity", name: "Humidity", value: String(weather.main.humidity) + "%")
                     }
                 }
             

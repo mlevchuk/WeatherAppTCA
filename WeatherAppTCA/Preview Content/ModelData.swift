@@ -8,6 +8,35 @@
 import Foundation
 
 var previewWeather: ResponseBody = load("weatherData.json")
+var previewCities: [CityRowData] = [
+    .init(
+        name: "London",
+        time: "12:30",
+        description: "Sunny",
+        temp: 23),
+
+    .init(
+        name: "Paris",
+        time: "12:30",
+        description: "Sunny",
+        temp: 25),
+
+    .init(
+        name: "Rome",
+        time: "12:30",
+        description: "Sunny",
+        temp: 28),
+    .init(
+        name: "Madrid",
+        time: "12:30",
+        description: "Sunny",
+        temp: 30),
+    .init(
+        name: "Bremen",
+        time: "12:30",
+        description: "Sunny",
+        temp: 18)    
+]
 
 func load<T: Decodable>(_ fileName: String) -> T {
     let data: Data

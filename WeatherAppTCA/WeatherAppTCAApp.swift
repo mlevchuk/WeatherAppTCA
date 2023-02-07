@@ -11,7 +11,8 @@ import SwiftUI
 struct WeatherAppTCAApp: App {
     var body: some Scene {
         WindowGroup {
-            WeatherView()
+            CitiesView(cities: previewCities)
+            //WeatherView()
         }
     }
 }
