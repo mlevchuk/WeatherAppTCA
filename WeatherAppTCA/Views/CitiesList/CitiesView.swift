@@ -28,8 +28,9 @@ struct CitiesView: View {
                 .foregroundColor(.white)
                 .navigationBarTitleDisplayMode(.inline)
                 .background(Constants.Colors.primary)
-                .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: nil)
-        }
+                .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
+            
+        }.accentColor(.white)
     }
     
     private func fetchCity() async throws {
@@ -47,9 +48,15 @@ struct CitiesList: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     ForEach(cities) { cityData in
-                        CityRow(data: cityData)
+                        NavigationLink(
+                            destination: {
+                                WeatherView(city: cityData.name)
+                            }, label: {
+                                CityRow(data: cityData)
+                            })
+                        
                     }
-                    .padding([.leading, .trailing], 8)
+                    .padding([.leading, .trailing, .top], 8)
                 }
             }
         }

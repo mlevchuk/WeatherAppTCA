@@ -40,7 +40,7 @@ struct WeatherContentView: View {
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 300)
+                                .frame(width: 280)
                                 .clipShape(RoundedRectangle(cornerRadius: 60))
                         } placeholder: {
                             ProgressView()
@@ -55,7 +55,7 @@ struct WeatherContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack {
-                 Spacer()
+                Spacer()
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Weather now")
                         .bold()
@@ -71,7 +71,7 @@ struct WeatherContentView: View {
                         WeatherCharacteristicRow(logo: "humidity", name: "Humidity", value: String(weather.main.humidity) + "%")
                     }
                 }
-            
+                
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .padding(.bottom, 20)
