@@ -27,6 +27,7 @@ struct CitiesView: View {
                     .background(Constants.Colors.primary)
                     .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
             }
+            .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
         }.accentColor(.white)
     }
 }
