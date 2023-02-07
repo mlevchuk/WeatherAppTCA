@@ -41,12 +41,16 @@ struct CitiesView: View {
 struct CitiesList: View {
     @Binding var cities: [CityRowData]
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack {
-                ForEach(cities) { cityData in
-                    CityRow(data: cityData)
+        if cities.isEmpty {
+            Constants.Colors.primary
+        } else {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    ForEach(cities) { cityData in
+                        CityRow(data: cityData)
+                    }
+                    .padding([.leading, .trailing], 8)
                 }
-                .padding([.leading, .trailing], 8)
             }
         }
     }
