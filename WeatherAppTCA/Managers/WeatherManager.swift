@@ -28,7 +28,8 @@ final class WeatherManager {
     }
     
     func getCurrentWeather(_ city: String) async throws -> ResponseBody {
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)") else {
+        let validCity = city.replacingOccurrences(of: " ", with: "%20")
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(validCity)&appid=\(apiKey)") else {
             fatalError("Not valid URL")
         }
         

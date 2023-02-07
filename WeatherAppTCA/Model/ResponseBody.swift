@@ -23,7 +23,7 @@ struct ResponseBody: Codable {
     
     var citiRowData: CityRowData {
         let time = "\(Date(timeIntervalSince1970: Double(dt)).formatted(.dateTime.hour().minute()))"
-        return .init(name: name, time: time, description: weather.description, temp: Int(main.temp))
+        return .init(name: name, time: time, description: weather[0].main, temp: Int(main.temp))
     }
 }
 

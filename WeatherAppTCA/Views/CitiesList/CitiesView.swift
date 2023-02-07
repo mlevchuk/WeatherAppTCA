@@ -16,7 +16,15 @@ struct CitiesView: View {
         NavigationView {
             CitiesList(cities: $cities)
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .onSubmit(of: .search, {})
+                .onSubmit(of: .search) {
+                    Task {
+                        do {
+                            try await fetchCity()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
                 .foregroundColor(.white)
                 .navigationBarTitleDisplayMode(.inline)
                 .background(Constants.Colors.primary)
@@ -26,7 +34,7 @@ struct CitiesView: View {
     
     private func fetchCity() async throws {
         let responseBody = try await weatherManager.getCurrentWeather(searchText)
-        
+        cities.append(responseBody.citiRowData)
     }
 }
 
