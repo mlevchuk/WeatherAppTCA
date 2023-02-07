@@ -10,17 +10,31 @@ import SwiftUI
 struct CitiesView: View {
     @State var cities: [CityRowData] = []
     @State private var searchText = ""
+    var weatherManager = WeatherManager()
     
     var body: some View {
         NavigationView {
             CitiesList(cities: $cities)
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .onSubmit(of: .search, {})
+                .onSubmit(of: .search) {
+                    Task {
+                        do {
+                            try await fetchCity()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
                 .foregroundColor(.white)
                 .navigationBarTitleDisplayMode(.inline)
                 .background(Constants.Colors.primary)
                 .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: nil)
         }
+    }
+    
+    private func fetchCity() async throws {
+        let responseBody = try await weatherManager.getCurrentWeather(searchText)
+        cities.append(responseBody.citiRowData)
     }
 }
 
