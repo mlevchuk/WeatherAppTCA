@@ -15,6 +15,7 @@ struct CitiesView: View {
         NavigationView {
             CitiesList(cities: $cities)
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+                .foregroundColor(.white)
                 .navigationBarTitleDisplayMode(.inline)
                 .background(Constants.Colors.primary)
                 .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: nil)
