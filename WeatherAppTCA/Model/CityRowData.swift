@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct CityRowData {
+struct CityRowData: Identifiable {
+    let id = UUID()
     let name: String
     let time: String
     let description: String
