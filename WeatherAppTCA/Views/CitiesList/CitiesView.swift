@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct CitiesView: View {
     let store: StoreOf<CitiesViewReducer>
+    @Environment(\.dismissSearch) private var dismissSearch
     
     var body: some View {
         NavigationView {
@@ -33,24 +34,32 @@ struct CitiesView: View {
 }
 
 struct CitiesList: View {
+    @Environment(\.dismissSearch) var dismissSearch
     var cities: [Compact]
+    
     var body: some View {
-        if cities.isEmpty {
-            Constants.Colors.primary
-        } else {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    ForEach(cities) { cityData in
-                        NavigationLink(
-                            destination: {
-                                WeatherView(city: cityData.name)
-                            }, label: {
-                                CityRow(data: cityData)
-                            })
-                    }
-                    .padding([.leading, .trailing, .top], 8)
+        GeometryReader { geometry in
+            ZStack {
+                if cities.isEmpty {
+                    Constants.Colors.primary
+                } else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack {
+                                ForEach(cities) { cityData in
+                                    NavigationLink(
+                                        destination: {
+                                            WeatherView(city: cityData.name)
+                                        }, label: {
+                                            CityRow(data: cityData)
+                                        })
+                                }
+                                .padding([.leading, .trailing, .top], 8)
+                            }
+                        }
+                        .frame(maxHeight: .infinity)
                 }
             }
+            .onTapGesture { dismissSearch() }
         }
     }
 }
