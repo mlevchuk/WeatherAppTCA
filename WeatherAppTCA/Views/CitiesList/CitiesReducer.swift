@@ -9,8 +9,8 @@ import Foundation
 import ComposableArchitecture
 
 struct CitiesViewReducer: ReducerProtocol {
-    private let manager: WeatherManager = .init()
-    
+    @Dependency(\.weatherManager) var manager
+
     struct State: Equatable {
         var query: String = ""
         var cities: [ResponseBody] = []

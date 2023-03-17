@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import Dependencies
 
 final class WeatherManager {
     private let apiKey = "46c58cab604acc3cf2fbbe5faf1a0c03"
@@ -42,5 +43,16 @@ final class WeatherManager {
         
         let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
         return responseBody
+    }
+}
+
+extension WeatherManager: DependencyKey {
+    static var liveValue: WeatherManager { .init() }    
+}
+
+extension DependencyValues {
+    var weatherManager: WeatherManager {
+        get { self[WeatherManager.self] }
+        set { self[WeatherManager.self] = newValue }
     }
 }
