@@ -8,7 +8,7 @@
 import Foundation
 
 var previewWeather: ResponseBody = load("weatherData.json")
-var previewCities: [CityRowData] = [
+var previewCities: [Compact] = [
     .init(
         name: "London",
         time: "12:30",

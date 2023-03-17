@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct WeatherAppTCAApp: App {
+    
+    let store: StoreOf<CitiesViewReducer> = .init(initialState: CitiesViewReducer.State(), reducer: CitiesViewReducer())
     var body: some Scene {
         WindowGroup {
-            CitiesView()
-            //WeatherView()
+            CitiesView(store: store)
         }
     }
 }

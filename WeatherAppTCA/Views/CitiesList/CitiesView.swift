@@ -6,65 +6,66 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct CitiesView: View {
-    @State var cities: [CityRowData] = []
-    @State private var searchText = ""
-    var weatherManager = WeatherManager()
+    let store: StoreOf<CitiesViewReducer>
+    @Environment(\.dismissSearch) private var dismissSearch
     
     var body: some View {
         NavigationView {
-            CitiesList(cities: $cities)
-                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                .onSubmit(of: .search) {
-                    Task {
-                        do {
-                            try await fetchCity()
-                        } catch {
-                            print(error)
-                        }
+            WithViewStore(store, observe: { $0 }) { viewStore in
+                CitiesList(cities: viewStore.cities.map { $0.compact })
+                    .searchable(
+                        text: viewStore.binding(get: { $0.query }, send: CitiesViewReducer.Action.textChanged),
+                        placement: .navigationBarDrawer(displayMode: .always)
+                    )
+                    .onSubmit(of: .search) {
+                        viewStore.send(.textSubmitted)
                     }
-                }
-                .foregroundColor(.white)
-                .navigationBarTitleDisplayMode(.inline)
-                .background(Constants.Colors.primary)
-                .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
-            
+                    .foregroundColor(.white)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .background(Constants.Colors.primary)
+                    .navigationBarColor(backgroundColor: Constants.Colors.primary.uiColor(), titleColor: .white)
+            }
+            .alert(store.scope(state: \.alert), dismiss: .alertDismissed)
         }.accentColor(.white)
-    }
-    
-    private func fetchCity() async throws {
-        let responseBody = try await weatherManager.getCurrentWeather(searchText)
-        cities.append(responseBody.citiRowData)
     }
 }
 
 struct CitiesList: View {
-    @Binding var cities: [CityRowData]
+    @Environment(\.dismissSearch) var dismissSearch
+    var cities: [Compact]
+    
     var body: some View {
-        if cities.isEmpty {
-            Constants.Colors.primary
-        } else {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    ForEach(cities) { cityData in
-                        NavigationLink(
-                            destination: {
-                                WeatherView(city: cityData.name)
-                            }, label: {
-                                CityRow(data: cityData)
-                            })
-                        
-                    }
-                    .padding([.leading, .trailing, .top], 8)
+        GeometryReader { geometry in
+            ZStack {
+                if cities.isEmpty {
+                    Constants.Colors.primary
+                } else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack {
+                                ForEach(cities) { cityData in
+                                    NavigationLink(
+                                        destination: {
+                                            WeatherView(city: cityData.name)
+                                        }, label: {
+                                            CityRow(data: cityData)
+                                        })
+                                }
+                                .padding([.leading, .trailing, .top], 8)
+                            }
+                        }
+                        .frame(maxHeight: .infinity)
                 }
             }
+            .onTapGesture { dismissSearch() }
         }
     }
 }
 
 struct CitiesView_Previews: PreviewProvider {
     static var previews: some View {
-        CitiesView(cities: previewCities)
+        CitiesView(store: .init(initialState: CitiesViewReducer.State(), reducer: CitiesViewReducer()))
     }
 }

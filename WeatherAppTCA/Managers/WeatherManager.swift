@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import Dependencies
 
 final class WeatherManager {
     private let apiKey = "46c58cab604acc3cf2fbbe5faf1a0c03"
@@ -37,10 +38,21 @@ final class WeatherManager {
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error fetching weather data")
+            throw NSError(domain: "Not valid status code", code: 1)
         }
         
         let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
         return responseBody
+    }
+}
+
+extension WeatherManager: DependencyKey {
+    static var liveValue: WeatherManager { .init() }    
+}
+
+extension DependencyValues {
+    var weatherManager: WeatherManager {
+        get { self[WeatherManager.self] }
+        set { self[WeatherManager.self] = newValue }
     }
 }
